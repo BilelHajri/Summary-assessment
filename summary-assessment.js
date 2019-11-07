@@ -60,6 +60,13 @@ function each(coll, f) {
   
   function wordLengths(str) {
       // TODO: your code here 
+      var tab = str.split(" ")
+      console.log(tab)
+
+      return  map(tab,function(el){
+        	return el.length
+      })
+    
   }
   
   //=============================================================================
@@ -71,8 +78,14 @@ function each(coll, f) {
   // countOccurrences("hello", "l"); // 2
   // countOccurrences("hello, world!", "l"); // 3
   
-  function countOccurrences(string, character) {
+ function countOccurrences(string, character) {
       // your code is here
+      return reduce(string, function(acc, elm){
+        if(elm === character){
+          return acc + 1;
+        }
+        return acc;
+      }, 0)
   }
   
   //=============================================================================
@@ -83,9 +96,14 @@ function each(coll, f) {
   //solve it using the most appropriate helper functions(reduce,each,map,filter).
   // wordsLongerThanThree("Hello Mad World") //["Hello", "World"]
   
-  function wordsLongerThanThree(str) {
+   function wordsLongerThanThree(str) {
       // TODO: your code here 
+      var array = str.split(" ");
+      return filter(array, function(elm){
+        return elm.length > 3
+      })
   }
+  
   
   //=============================================================================
   /*                                  Q4                                        */
@@ -100,6 +118,12 @@ function each(coll, f) {
   
   function repeatString(str, count) { 
    // TODO: your code here 
+
+    if(count === 0){ //  stop condition 
+    	return ""
+    }
+  
+   return str + repeatString(str,count-1)
   } 
    
   
@@ -129,6 +153,34 @@ function each(coll, f) {
   // pizza.eatSlice();
   
   // Write your code here .....
+
+  function makePizza(cust,size,slice){
+    var ingredientprop = [] // intial empty tab 
+    var sliceRest = slice // nb of slice 
+    return {
+        addIngredients: function(ingredient){ // function to add 
+            ingredientprop.push(ingredient)
+        },
+        displayIngredaints: function(){ // display fnction 
+            return "your ingredients are : " + ingredientprop.join(',')
+        },
+        bakePizza: function(){ 
+            setTimeout(function (){ // to bake after 2 second the result will display
+                console.log("your "+cust + " "+ size + " " + slice + " slice pizza is done !!")
+            }, 2000);
+    
+        },
+        eatSlice: function(){
+            if(sliceRest !== 0){ // to check if there is a slice to eat
+                sliceRest -= 1
+                return "slice rest is :" + sliceRest
+            }else { 
+                return "no more slices"
+            }
+        }
+
+    }
+}
   
   //=============================================================================
   /*                                  Q6                                      */
@@ -155,6 +207,29 @@ function each(coll, f) {
   // Now, to make sure that you are actually reading, make a comment below this and type: Yes I am
   
   // Write your code here .....
+  function ReadingList(){
+    var instance = {}
+
+    instance.read = 0 
+    instance.unRead = 0
+    instance.toRead = []
+    instance.currentRead = ""
+    instance.readBooks = []
+    instance.addBook = addBook
+    instance.finishCurrentBook = finishCurrentBook
+    
+    return instance
+}
+var addBook = function(name){   
+    this.toRead.push(name)
+    this.unRead +=1
+}
+var finishCurrentBook = function(){
+    this.readBooks.push(this.currentRead) // add to redbooks 
+    this.read += 1 // increamenet 
+    this.currentRead = this.toRead[0] // get the book to read
+    this.unRead -= 1
+}
   
   //=============================================================================
   /*                                  Q7                                       */
@@ -175,6 +250,35 @@ function each(coll, f) {
   //  safe('money','small') => "watch gold-bar money"
   
   // Write your code here .....
+  function makeSafe(nb){
+    var storageLimit = nb 
+    var listItem = []
+    var size = {
+        big: 3,
+        small: 1,
+        medium: 2 
+    }
+    return function (item,itemSize){
+    	//check using the lowercase 
+        var check = (itemSize.toLowerCase() === "big") || (itemSize.toLowerCase() === "small") || (itemSize.toLowerCase() === "meduim")
+        console.log(check)
+
+        if (!check ) { return " item size not valid "} // !check means not true
+        
+        if ((storageLimit - size[itemSize]) > 0){
+            storageLimit -= size[itemSize]
+            listItem.push(item)
+           // console.log(storageLimit)
+            return "added"
+        } else if ( (storageLimit - size[itemSize] === 0) ){
+            listItem.push(item)
+            storageLimit -= 1    
+            return listItem.join(' ')
+        }
+        return " can't fit "
+       
+    }
+}
   
   //=============================================================================
   /*                                  Q8                                       */
@@ -202,7 +306,9 @@ function each(coll, f) {
   //Create two buttons "create" & "remove"
   //Create 7 classes in CSS each with the appropriete color (black, purple, green, orange, red, yellow, blue)
   //Using jQuery run a function that gets called using the button's id (#create)
+
   //The function takes see if the checkboxes are checked or not (true or false), use $("#id").prop('checked')
+
   //If all 3 checkboxes are checked add an list item with the word black in it and add the "black" class to it
   //If 2 of the checkboxes are checked add (purple = blue + red), (green = blue + yellow), (orange = red + yellow)
   //If 1 of the checkboxes is checked add (yellow, blue or red) as li and the class to it
@@ -216,10 +322,16 @@ function each(coll, f) {
   //================================================================================
   // Theoretical questions.
   // 1- In your own words,Why do we use Closures ?
+ //  colosure is a function that return onther function or obj 
   
   // 2- In OOP, what does "this" refer to ?
+  // this ref to the obj of instance it self 
   
   // 3- What is jQuery?
+
+  //jquery is liabary simple that dom 
   
   // 4- what is the diffrence between Closure's methods and The OOP's methods?
-  
+
+
+ 
